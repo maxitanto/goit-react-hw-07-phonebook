@@ -1,15 +1,38 @@
-import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, getContacts } from 'redux/contactsSlice';
+import { contactsSelector } from 'redux/selectors';
+import { addContact } from 'redux/thunk';
+
 import css from './ContactForm.module.css';
 
 export function ContactForm() {
-  const contacts = useSelector(getContacts);
-  const dispatch = useDispatch();
-
   const [contactName, setName] = useState('');
   const [number, setNumber] = useState('');
+
+  const items = useSelector(contactsSelector);
+  const dispatch = useDispatch();
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    const isAdded = items.some(
+      ({ name }) => name.toLowerCase() === contactName.toLowerCase()
+    );
+
+    if (isAdded) {
+      alert(`${contactName}  is already in contacts.`);
+      return;
+    }
+
+    dispatch(
+      addContact({
+        name: contactName,
+        phone: number,
+      })
+    );
+
+    reset();
+  };
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -24,29 +47,6 @@ export function ContactForm() {
       default:
         return;
     }
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-
-    const isAdded = contacts.some(
-      ({ name }) => name.toLowerCase() === contactName.toLowerCase()
-    );
-
-    if (isAdded) {
-      alert(`${contactName}  is already in contacts.`);
-      return;
-    }
-
-    dispatch(
-      addContact({
-        name: contactName,
-        number: number,
-        id: nanoid(),
-      })
-    );
-
-    reset();
   };
 
   //Reset форми

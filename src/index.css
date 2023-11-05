@@ -7,6 +7,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  background-image: url('./image/london-phone-red-wallpaper-a365b8ef7f58d48bbc74a0e86e596d6c.jpg');
+  background-attachment: fixed;
 }
 
 code {

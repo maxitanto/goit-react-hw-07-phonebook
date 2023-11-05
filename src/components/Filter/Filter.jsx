@@ -14,7 +14,7 @@ export function Filter() {
   return (
     <div className={css.wrapper}>
       <label>
-        Find contacts by name
+        <b>Find contacts by name</b>
         <input
           type="text"
           name={filterValue}
